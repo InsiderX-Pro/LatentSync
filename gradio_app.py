@@ -91,7 +91,7 @@ def create_args(
 
 
 # Create Gradio interface
-with gr.Blocks(title="唇形同步") as demo:
+with gr.Blocks(title="唇形同步", css="assets/app.css") as demo:
     gr.Markdown(
         """
     <h1 align="center">唇形同步</h1>
@@ -100,7 +100,7 @@ with gr.Blocks(title="唇形同步") as demo:
 
     with gr.Row():
         with gr.Column():
-            video_input = gr.Video(label="上传视频")
+            video_input = gr.Video(label="上传视频", elem_classes="video")
             audio_input = gr.Audio(label="上传音频", type="filepath")
 
             with gr.Row():
@@ -110,7 +110,7 @@ with gr.Blocks(title="唇形同步") as demo:
                     value=1.5,
                     step=0.1,
                     label="引导尺度",
-                    info="用于控制生成视频的质量。较高的值可以提高唇形同步精度，但可能会导致视频失真或抖动。",
+                    info="较高的值可以提高唇形同步精度，但可能会导致视频失真或抖动。",
                 )
                 inference_steps = gr.Slider(
                     minimum=10,
@@ -118,7 +118,7 @@ with gr.Blocks(title="唇形同步") as demo:
                     value=20,
                     step=1,
                     label="推理步数",
-                    info="值越高，视觉质量越好，但生成速度越慢。",
+                    info="值越高，视频质量越好，但生成速度越慢。",
                 )
 
             process_btn = gr.Button("生成视频")
@@ -134,6 +134,11 @@ with gr.Blocks(title="唇形同步") as demo:
             #     ],
             #     inputs=[video_input, audio_input],
             # )
+    gr.HTML(
+        """
+        <div class="footer"></div>
+        """
+    )
 
     process_btn.click(
         fn=process_video,
