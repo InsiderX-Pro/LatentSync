@@ -14,7 +14,7 @@ def process_video(
     audio_path,
     guidance_scale,
     inference_steps,
-    seed,
+    seed = 1247,
 ):
     # Create the temp directory if it doesn't exist
     output_dir = Path("./temp")
@@ -91,26 +91,17 @@ def create_args(
 
 
 # Create Gradio interface
-with gr.Blocks(title="LatentSync demo") as demo:
+with gr.Blocks(title="唇形同步") as demo:
     gr.Markdown(
         """
-    <h1 align="center">LatentSync</h1>
-
-    <div style="display:flex;justify-content:center;column-gap:4px;">
-        <a href="https://github.com/bytedance/LatentSync">
-            <img src='https://img.shields.io/badge/GitHub-Repo-blue'>
-        </a> 
-        <a href="https://arxiv.org/abs/2412.09262">
-            <img src='https://img.shields.io/badge/arXiv-Paper-red'>
-        </a>
-    </div>
+    <h1 align="center">唇形同步</h1>
     """
     )
 
     with gr.Row():
         with gr.Column():
-            video_input = gr.Video(label="Input Video")
-            audio_input = gr.Audio(label="Input Audio", type="filepath")
+            video_input = gr.Video(label="上传视频")
+            audio_input = gr.Audio(label="上传音频", type="filepath")
 
             with gr.Row():
                 guidance_scale = gr.Slider(
@@ -118,26 +109,31 @@ with gr.Blocks(title="LatentSync demo") as demo:
                     maximum=3.0,
                     value=1.5,
                     step=0.1,
-                    label="Guidance Scale",
+                    label="引导尺度",
+                    info="用于控制生成视频的质量。较高的值可以提高唇形同步精度，但可能会导致视频失真或抖动。",
                 )
-                inference_steps = gr.Slider(minimum=10, maximum=50, value=20, step=1, label="Inference Steps")
+                inference_steps = gr.Slider(
+                    minimum=10,
+                    maximum=50,
+                    value=20,
+                    step=1,
+                    label="推理步数",
+                    info="值越高，视觉质量越好，但生成速度越慢。",
+                )
 
-            with gr.Row():
-                seed = gr.Number(value=1247, label="Random Seed", precision=0)
-
-            process_btn = gr.Button("Process Video")
+            process_btn = gr.Button("生成视频")
 
         with gr.Column():
-            video_output = gr.Video(label="Output Video")
+            video_output = gr.Video(label="输出视频")
 
-            gr.Examples(
-                examples=[
-                    ["assets/demo1_video.mp4", "assets/demo1_audio.wav"],
-                    ["assets/demo2_video.mp4", "assets/demo2_audio.wav"],
-                    ["assets/demo3_video.mp4", "assets/demo3_audio.wav"],
-                ],
-                inputs=[video_input, audio_input],
-            )
+            # gr.Examples(
+            #     examples=[
+            #         ["assets/demo1_video.mp4", "assets/demo1_audio.wav"],
+            #         ["assets/demo2_video.mp4", "assets/demo2_audio.wav"],
+            #         ["assets/demo3_video.mp4", "assets/demo3_audio.wav"],
+            #     ],
+            #     inputs=[video_input, audio_input],
+            # )
 
     process_btn.click(
         fn=process_video,
@@ -146,10 +142,9 @@ with gr.Blocks(title="LatentSync demo") as demo:
             audio_input,
             guidance_scale,
             inference_steps,
-            seed,
         ],
         outputs=video_output,
     )
 
 if __name__ == "__main__":
-    demo.launch(inbrowser=True, share=True)
+    demo.launch(server_name="0.0.0.0", share=True)
