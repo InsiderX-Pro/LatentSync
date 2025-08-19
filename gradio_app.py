@@ -89,9 +89,23 @@ def create_args(
         ]
     )
 
+css = """
+.video {
+  max-height: 600px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: white;
+}
+"""
 
 # Create Gradio interface
-with gr.Blocks(title="唇形同步", css="assets/app.css") as demo:
+with gr.Blocks(title="唇形同步", css=css) as demo:
     gr.Markdown(
         """
     <h1 align="center">唇形同步</h1>
