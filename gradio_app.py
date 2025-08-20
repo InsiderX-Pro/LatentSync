@@ -162,4 +162,4 @@ with gr.Blocks(title="唇形同步", css=css) as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(auth=("admin", "#SrDSic![fIl-|+?"), share=False)
+    demo.launch(auth=("admin", "admin"), share=False)
