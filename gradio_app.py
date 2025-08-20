@@ -95,7 +95,7 @@ css = """
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -166,4 +166,4 @@ with gr.Blocks(title="唇形同步", css=css) as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", share=True)
+    demo.launch(server_name="0.0.0.0", auth=("admin", "#SrDSic![fIl-|+?"))
