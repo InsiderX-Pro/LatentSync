@@ -46,7 +46,7 @@ def process_video(
             config=config,
             args=args,
         )
-        print("Processing completed successfully.")
+        print("Processing completed successfully.", output_path)
         return output_path  # Ensure the output path is returned
     except Exception as e:
         print(f"Error during processing: {str(e)}")
@@ -90,16 +90,12 @@ def create_args(
     )
 
 css = """
-.video {
-  max-height: 600px;
-}
-
 .footer {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 40px;
+  height: 80px;
   background-color: white;
 }
 """
@@ -114,7 +110,7 @@ with gr.Blocks(title="唇形同步", css=css) as demo:
 
     with gr.Row():
         with gr.Column():
-            video_input = gr.Video(label="上传视频", elem_classes="video")
+            video_input = gr.Video(label="上传视频")
             audio_input = gr.Audio(label="上传音频", type="filepath")
 
             with gr.Row():
@@ -166,4 +162,4 @@ with gr.Blocks(title="唇形同步", css=css) as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", auth=("admin", "#SrDSic![fIl-|+?"))
+    demo.launch(auth=("admin", "#SrDSic![fIl-|+?"), share=False)
